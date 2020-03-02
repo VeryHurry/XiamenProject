@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="myGarage_cell" rowHeight="82" id="KGk-i7-Jjw" customClass="SQMyGarageCell">
+            <rect key="frame" x="0.0" y="0.0" width="374" height="82"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="374" height="81.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qed-UJ-EM9">
+                        <rect key="frame" x="9" y="8" width="356" height="65.5"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <integer key="value" value="5"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dde-ZH-AKg">
+                        <rect key="frame" x="9" y="8" width="356" height="65.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HTR-G9-OcE">
+                                <rect key="frame" x="82" y="36" width="40" height="20"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="车卫士编号" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fph-Zo-6KD">
+                                <rect key="frame" x="10" y="38.5" width="62" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="manage_ic_next" translatesAutoresizingMaskIntoConstraints="NO" id="8Ig-gy-D2R">
+                                <rect key="frame" x="334" y="27" width="6" height="12"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="车况" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ti-MM-LvL">
+                                <rect key="frame" x="300" y="25.5" width="25" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="车辆识别码" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CDW-Qn-T3I">
+                                <rect key="frame" x="10" y="12.5" width="61.5" height="14.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hFK-O7-IzA">
+                                <rect key="frame" x="81.5" y="9.5" width="40" height="20"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="HTR-G9-OcE" firstAttribute="centerY" secondItem="Fph-Zo-6KD" secondAttribute="centerY" id="4Xu-6d-zih"/>
+                            <constraint firstItem="hFK-O7-IzA" firstAttribute="centerY" secondItem="CDW-Qn-T3I" secondAttribute="centerY" id="A8p-7Z-VAO"/>
+                            <constraint firstItem="8Ig-gy-D2R" firstAttribute="centerY" secondItem="dde-ZH-AKg" secondAttribute="centerY" id="Ddy-CW-5fr"/>
+                            <constraint firstItem="HTR-G9-OcE" firstAttribute="leading" secondItem="Fph-Zo-6KD" secondAttribute="trailing" constant="10" id="MXt-AK-TNw"/>
+                            <constraint firstItem="CDW-Qn-T3I" firstAttribute="leading" secondItem="dde-ZH-AKg" secondAttribute="leading" constant="10" id="QGD-n0-d7N"/>
+                            <constraint firstAttribute="trailing" secondItem="8Ig-gy-D2R" secondAttribute="trailing" constant="16" id="hTI-ux-BnT"/>
+                            <constraint firstItem="Fph-Zo-6KD" firstAttribute="leading" secondItem="CDW-Qn-T3I" secondAttribute="leading" id="qcF-PO-6t2"/>
+                            <constraint firstItem="hFK-O7-IzA" firstAttribute="leading" secondItem="CDW-Qn-T3I" secondAttribute="trailing" constant="10" id="qq7-oP-G3Y"/>
+                            <constraint firstItem="7ti-MM-LvL" firstAttribute="centerY" secondItem="8Ig-gy-D2R" secondAttribute="centerY" id="sIJ-4E-VdI"/>
+                            <constraint firstItem="8Ig-gy-D2R" firstAttribute="leading" secondItem="7ti-MM-LvL" secondAttribute="trailing" constant="9" id="x02-3C-4Db"/>
+                            <constraint firstItem="Fph-Zo-6KD" firstAttribute="centerY" secondItem="dde-ZH-AKg" secondAttribute="centerY" multiplier="1.4" id="y4v-Hp-t5A"/>
+                            <constraint firstItem="CDW-Qn-T3I" firstAttribute="centerY" secondItem="dde-ZH-AKg" secondAttribute="centerY" multiplier="0.6" id="zza-gr-4hQ"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <integer key="value" value="5"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="Qed-UJ-EM9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="9" id="AQI-Ig-ERV"/>
+                    <constraint firstItem="dde-ZH-AKg" firstAttribute="leading" secondItem="Qed-UJ-EM9" secondAttribute="leading" id="HFJ-ii-5MD"/>
+                    <constraint firstAttribute="trailing" secondItem="Qed-UJ-EM9" secondAttribute="trailing" constant="9" id="KpE-Zj-kmP"/>
+                    <constraint firstItem="dde-ZH-AKg" firstAttribute="top" secondItem="Qed-UJ-EM9" secondAttribute="top" id="X04-A0-VdK"/>
+                    <constraint firstItem="Qed-UJ-EM9" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="cQu-ef-bTX"/>
+                    <constraint firstItem="dde-ZH-AKg" firstAttribute="trailing" secondItem="Qed-UJ-EM9" secondAttribute="trailing" id="lay-LF-U0u"/>
+                    <constraint firstItem="dde-ZH-AKg" firstAttribute="bottom" secondItem="Qed-UJ-EM9" secondAttribute="bottom" id="mi3-eD-wcX"/>
+                    <constraint firstAttribute="bottom" secondItem="Qed-UJ-EM9" secondAttribute="bottom" constant="8" id="oV2-wa-YEG"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
+            <connections>
+                <outlet property="bgView" destination="Qed-UJ-EM9" id="reL-lH-Byq"/>
+                <outlet property="no" destination="hFK-O7-IzA" id="YMi-Jo-LC8"/>
+                <outlet property="vehice" destination="HTR-G9-OcE" id="mAh-Ic-jwV"/>
+            </connections>
+            <point key="canvasLocation" x="169.56521739130437" y="99.107142857142847"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="manage_ic_next" width="6" height="12"/>
+    </resources>
+</document>
