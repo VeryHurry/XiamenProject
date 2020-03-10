@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SQAnswerViewController : BaseViewController
 
+@property (nonatomic, assign) NSInteger type;
+
 @property (nonatomic, copy) NSString *examinationNo;
 
 @end

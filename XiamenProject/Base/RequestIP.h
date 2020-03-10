@@ -50,6 +50,8 @@ extern NSString *const IP_TrackInfo;
 extern NSString *const IP_BindStatus;
 extern NSString *const IP_VehicleInfo;
 
-
+extern NSString *const IP_Clockin;
+extern NSString *const IP_GetFiveSubject;
+extern NSString *const IP_AddClockin;
 
 @end

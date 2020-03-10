@@ -9,12 +9,14 @@
 #import "SQAnswerViewController.h"
 #import "AnswerCollectionViewCell.h"
 #import "SQTestResultViewController.h"
+#import "SQFiveResultViewController.h"
 #import "AnswerFooterView.h"
 #import "AnswerSheetView.h"
 #import "MacroDefinition.h"
 #import "TestListModel.h"
 #import "AnswerSubmitModel.h"
 #import "AnswerDetailModel.h"
+#import "FiveSubjectModel.h"
 
 @interface SQAnswerViewController ()<UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
@@ -25,6 +27,8 @@
 @property (nonatomic,strong) AnswerSheetView *sheetView;
 
 @property (nonatomic,strong) TestListModel *model;
+
+@property (nonatomic,strong) FiveSubjectModel *fiveModel;
 
 @property (nonatomic, strong) NSArray *sortAnswerArr, *sortArr;
 
@@ -37,6 +41,7 @@
 
 @property (nonatomic, assign) BOOL isOpen;
 
+
 @end
 
 @implementation SQAnswerViewController
@@ -48,21 +53,26 @@
     self.view.backgroundColor = kWhite;
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    UIButton  * customBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 60, 50, 44)];
-    [customBtn setTitle:@"进度" forState:UIControlStateNormal];
-    customBtn.titleLabel.font = Font(13);
-    customBtn.titleLabel.textAlignment = 2;
-    [customBtn setTitleColor:ColorWithHex(0x959595) forState:UIControlStateNormal];
-    customBtn.enabled = NO;
-    customBtn.tag = 1;
-    [customBtn addTarget:self action:@selector(progress:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem * barItem = [[UIBarButtonItem alloc] initWithCustomView:customBtn];
-    self.navigationItem.rightBarButtonItem = barItem;
-    
     [kWindow addSubview:self.footerView];
-    [kWindow addSubview:self.sheetView];
     
-    [self getMessage];
+    if (_type == 1) {
+        [self getFiveSubject];
+    }
+    else
+    {
+        UIButton  * customBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 60, 50, 44)];
+        [customBtn setTitle:@"进度" forState:UIControlStateNormal];
+        customBtn.titleLabel.font = Font(13);
+        customBtn.titleLabel.textAlignment = 2;
+        [customBtn setTitleColor:ColorWithHex(0x959595) forState:UIControlStateNormal];
+        customBtn.enabled = NO;
+        customBtn.tag = 1;
+        [customBtn addTarget:self action:@selector(progress:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem * barItem = [[UIBarButtonItem alloc] initWithCustomView:customBtn];
+        self.navigationItem.rightBarButtonItem = barItem;
+        [kWindow addSubview:self.sheetView];
+        [self getMessage];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -70,6 +80,13 @@
     [super viewWillDisappear:animated];
     [self.footerView removeFromSuperview];
     [self closeSheetView:YES];
+}
+
+- (void)back
+{
+    if (_type == 1) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
 }
 
 - (void)progress:(UIButton *)sender
@@ -197,6 +214,29 @@
 }
 
 #pragma mark - Network
+- (void)getFiveSubject
+{
+    [Base_AFN_Manager postUrl:IP_SPLICE(IP_GetFiveSubject) parameters:@{@"accountNo":[kUserDefaults objectForKey:@"mobile"]} success:^(id success) {
+        __weak __typeof(self) wself = self;
+        if (!kIsEmptyObj(success)) {
+            NSLog(@"-------*****%@",success);
+            
+            wself.fiveModel = [FiveSubjectModel mj_objectWithKeyValues:success];
+            
+            wself.sortAnswerArr = [self sortSubjectListArray:wself.fiveModel.result];
+            wself.sortArr = [self getSortArr];
+            [self.collectionView reloadData];
+            
+        }
+        
+        
+    } failure_login:nil failure_data:^(id failure) {
+        
+    } error:^(id error) {
+        
+    }];
+}
+
 - (void)getMessage
 {
     if ([Base_AFN_Manager isNetworking]) {
@@ -212,6 +252,30 @@
                 //                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 //                    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:5 inSection:0] atScrollPosition:UICollectionViewScrollPositionRight animated:false];
                 //                });
+            }
+            
+            
+        } failure_login:nil failure_data:^(id failure) {
+            
+        } error:^(id error) {
+            
+        }];
+    } else {
+        
+    }
+}
+
+- (void)submitFiveByData:(NSDictionary *)dic
+{
+    if ([Base_AFN_Manager isNetworking]) {
+        
+        [Base_AFN_Manager postUrl:IP_SPLICE(IP_AddClockin) parameters:dic success:^(id success) {
+            //            __weak __typeof(self) wself = self;
+            if (!kIsEmptyObj(success)) {
+                
+                SQFiveResultViewController *vc = [SQFiveResultViewController new];
+                vc.result = success[@"msg"];
+                [self.navigationController pushViewController:vc animated:YES];
             }
             
             
@@ -265,6 +329,26 @@
 //    NSLog(@"---------%@",self.submitArr);
 }
 
+
+- (NSDictionary *)submitFiveData:(NSArray *)arr
+{
+    NSMutableDictionary *dic = [NSMutableDictionary new];
+    NSString *answerNo = @"";
+    for (int i = 0; i < arr.count; i ++) {
+        AnswerSubmitModel *model = arr[i];
+        if (i == 0) {
+            answerNo = model.answerNo;
+        }
+        else
+        {
+            answerNo = [NSString stringWithFormat:@"%@,%@",answerNo,model.answerNo];
+        }
+    }
+    [dic setObject:[kUserDefaults objectForKey:@"mobile"] forKey:@"accountNo"];
+    [dic setObject:answerNo forKey:@"answer"];
+    return dic;
+}
+
 - (NSDictionary *)submitData:(NSArray *)arr
 {
     NSMutableDictionary *dic = [NSMutableDictionary new];
@@ -314,18 +398,32 @@
 - (NSArray *)sortSubjectListArray:(NSArray *)arr
 {
     NSMutableArray *temp = [NSMutableArray new];
-    for (Subjectlist *aModel in arr) {
-        AnswerDetailModel *model = [AnswerDetailModel new];
-        model.titleNo = aModel.ID;
-        model.score = aModel.score;
-        model.type = aModel.type;
-        model.title = aModel.title;
-        model.answer = aModel.answer;
-        model.optionsList = [self getOptionsList:aModel.options];
-        [temp addObject:model];
+    if (_type == 1) {
+        for (SubjectModel *aModel in arr) {
+            AnswerDetailModel *model = [AnswerDetailModel new];
+            model.titleNo = aModel.ID;
+            model.score = aModel.score;
+            model.type = aModel.type;
+            model.title = aModel.title;
+            model.answer = aModel.answer;
+            model.optionsList = [self getOptionsList:aModel.options];
+            [temp addObject:model];
+        }
     }
-   
-    //排序（7-22不用排序）
+    else
+    {
+        for (Subjectlist *aModel in arr) {
+            AnswerDetailModel *model = [AnswerDetailModel new];
+            model.titleNo = aModel.ID;
+            model.score = aModel.score;
+            model.type = aModel.type;
+            model.title = aModel.title;
+            model.answer = aModel.answer;
+            model.optionsList = [self getOptionsList:aModel.options];
+            [temp addObject:model];
+        }
+    }
+    //排序
 //    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"titleNo" ascending:YES];
 //    NSArray *tempArr = [temp sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
     
@@ -386,12 +484,32 @@
 #pragma mark - other
 - (void)isFinish
 {
+    if (_type == 1) {
+        if (self.submitArr.count >= _fiveModel.result.count) {
+            [UIView animateWithDuration:0.5 animations:^{
+                self.footerView.frame = kFrame(0, kScreen_H-45, kScreen_W, 45);
+            }];
+        }
+    }
+    else
+    {
     if (self.submitArr.count >= _model.subjectList.count) {
         //    if (self.submitArr.count >= _model.subjectList.count) {
         [UIView animateWithDuration:0.5 animations:^{
             self.footerView.frame = kFrame(0, kScreen_H-45, kScreen_W, 45);
         }];
     }
+    }
+}
+
+- (NSArray *)getSortArr
+{
+    NSMutableArray *temp = [NSMutableArray new];
+    for (int i = 0; i < _fiveModel.result.count; i ++) {
+        SubjectModel *model = _fiveModel.result[i];
+        [temp addObject:kStrNum(model.ID)];
+    }
+    return temp;
 }
 
 #pragma mark - get
@@ -407,9 +525,17 @@
 {
     if (!_footerView) {
         _footerView = [[AnswerFooterView alloc]initWithFrame:kFrame(0, kScreen_H, kScreen_W, 45) block:^(NSInteger num) {
+            if (self.type == 1) {
+                NSDictionary *dic = [self submitFiveData:[self sortSubmitArray:self.submitArr]];
+                [self submitFiveByData:dic];
+            }
+            else
+            {
+                NSDictionary *dic = [self submitData:[self sortSubmitArray:self.submitArr]] ;
+                [self submitByData:dic];
+            }
+                
             
-            NSDictionary *dic = [self submitData:[self sortSubmitArray:self.submitArr]] ;
-            [self submitByData:dic];
         }];
     }
     return _footerView;

@@ -69,6 +69,7 @@
                 [kUserDefaults setInteger:[success[@"result"][@"type"] integerValue] forKey:@"type"];
                 [kUserDefaults setObject:self.telText.text forKey:@"mobile"];
                 [kUserDefaults setObject:success[@"result"][@"id"] forKey:@"id"];
+                [kUserDefaults setObject:success[@"result"][@"accountId"] forKey:@"accountId"];
                 [kUserDefaults setBool:YES forKey:@"isLogin"];
                 [MBProgressHUD showSuccess:@"登录成功"];
                 [self dismissViewControllerAnimated:YES completion:nil];

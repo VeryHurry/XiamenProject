@@ -12,6 +12,7 @@
 #import "SQTestListViewController.h"
 #import "SQViolationsViewController.h"
 #import "SQScanViewController.h"
+#import "SQAnswerViewController.h"
 #import "SQViolationsFeedbackViewController.h"
 #import "SQVehicleManagementViewController.h"
 #import "SQLiveTrafficViewController.h"
@@ -24,6 +25,7 @@
 #import "Masonry.h"
 #import "MacroDefinition.h"
 #import "SELUpdateAlert.h"
+#import "GoTestView.h"
 
 #define FIT_WIDTH(w) w * SCREEN_WIDTH / 375.f
 static NSString *kRemoteCellId = @"RemoteImageCell";
@@ -43,6 +45,7 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
 @property (nonatomic, strong) UIView *menuView;
 @property (nonatomic, strong) UIView *headView;
 @property (nonatomic, strong) UIButton *vehicleBtn;
+@property (nonatomic, strong) UIView *maskView;
 
 @property (nonatomic, strong) NSDictionary *vehicleDic;//车辆信息
 @property (nonatomic, assign) BOOL isBind;//是否扫码绑定
@@ -64,13 +67,14 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
     NSLog(@"----***************-----------%@",[kUserDefaults objectForKey:@"mobile"]);
     if ([kUserDefaults objectForKey:@"mobile"]&&!kIsEmptyStr([kUserDefaults objectForKey:@"mobile"]))
     {
+        [self checkClockin];
         [self getMessage];
     }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self getVersion];
+//    [self getVersion];
     UIButton *customBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
     [customBtn setImage:[UIImage imageNamed:@"home_ic_scan"] forState:UIControlStateNormal];
     customBtn.titleLabel.font = Font(13);
@@ -504,6 +508,57 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
     }
 }
 
+- (void)getUserInfo
+{
+    if ([Base_AFN_Manager isNetworking]) {
+        
+        [Base_AFN_Manager postUrl:IP_SPLICE(IP_UserInfo) parameters:@{@"mobile":[kUserDefaults objectForKey:@"mobile"]} success:^(id success) {
+            
+            
+            
+        } failure_login:nil failure_data:^(id failure) {
+            
+        } error:^(id error) {
+            
+        }];
+    } else {
+        
+    }
+}
+
+- (void)checkClockin
+{
+    if ([Base_AFN_Manager isNetworking]) {
+        
+        [Base_AFN_Manager postUrl:IP_SPLICE(IP_Clockin) parameters:@{@"accountNo":[kUserDefaults objectForKey:@"mobile"]} success:^(id success) {
+            if (!kIsEmptyObj(success)) {
+                if ([success[@"result"] integerValue] == 0) {
+                    self.maskView.alpha = 0.6;
+                    [GoTestView alertWithBlock:^{
+                        
+                        self.maskView.alpha = 0;
+                        SQAnswerViewController *vc = [SQAnswerViewController new];
+                        vc.hidesBottomBarWhenPushed = YES;
+                        vc.type = 1;
+                        [self.navigationController pushViewController:vc animated:YES];
+                    }closeBlock:^{
+                        self.maskView.alpha = 0;
+                    }];
+                }
+            }
+            
+            
+        } failure_login:nil failure_data:^(id failure) {
+            
+        } error:^(id error) {
+            
+        }];
+    } else {
+        
+    }
+}
+
+
 - (void)getBindStatus
 {
     
@@ -577,6 +632,17 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
                         @"随手拍",@"实时路况",@"禁骑路线"];
     }
     return _titleArray;
+}
+
+- (UIView *)maskView
+{
+    if (!_maskView) {
+        _maskView = [[UIView alloc]initWithFrame:kFrame(0, 0, kScreen_W, kScreen_H)];
+        _maskView.backgroundColor = kBlack;
+        _maskView.alpha = 0;
+        [kWindow addSubview:self.maskView];
+    }
+    return _maskView;
 }
 
 /*

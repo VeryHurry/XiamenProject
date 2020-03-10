@@ -22,12 +22,17 @@
 		044CDACC22CC454B002295D5 /* SQMyTrackCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044CDACA22CC454B002295D5 /* SQMyTrackCell.xib */; };
 		044CDACF22CC96FF002295D5 /* MyTrackModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 044CDACD22CC96FF002295D5 /* MyTrackModel.m */; };
 		044CDAD222CCA8E3002295D5 /* SQTrackDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044CDAD122CCA8E3002295D5 /* SQTrackDetailViewController.m */; };
+		0456A5AC2410E6690036D5F9 /* FiveSubjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0456A5AB2410E6690036D5F9 /* FiveSubjectModel.m */; };
 		0464B0BF239F7D3B00A80785 /* CarICurrentInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0464B0BE239F7D3B00A80785 /* CarICurrentInfoModel.m */; };
 		0464B0C3239F7FE500A80785 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0464B0C2239F7FE500A80785 /* CoreGraphics.framework */; };
 		0483C8C122D476080086803B /* SQNoticeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0483C8BF22D476080086803B /* SQNoticeDetailViewController.m */; };
 		0483C8C222D476080086803B /* SQNoticeDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0483C8C022D476080086803B /* SQNoticeDetailViewController.xib */; };
+		0490686C2411EFA500789748 /* SQFiveResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0490686A2411EFA500789748 /* SQFiveResultViewController.m */; };
+		0490686D2411EFA500789748 /* SQFiveResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0490686B2411EFA500789748 /* SQFiveResultViewController.xib */; };
 		04BC155F240BFB4D004A9DB1 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BC155D240BFB4C004A9DB1 /* libssl.a */; };
 		04BC1560240BFB4D004A9DB1 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BC155E240BFB4D004A9DB1 /* libcrypto.a */; };
+		04CA87B1240F952000934027 /* GoTestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04CA87AE240F951F00934027 /* GoTestView.xib */; };
+		04CA87B2240F952000934027 /* GoTestView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CA87B0240F951F00934027 /* GoTestView.m */; };
 		04CCBE442399E8BA00980053 /* SQVehicleMonitoringViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CCBE422399E8BA00980053 /* SQVehicleMonitoringViewController.m */; };
 		04CCBE452399E8BA00980053 /* SQVehicleMonitoringViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04CCBE432399E8BA00980053 /* SQVehicleMonitoringViewController.xib */; };
 		04D43D4222D2DC07008794D9 /* SQTrackMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D43D4122D2DC07008794D9 /* SQTrackMessageView.m */; };
@@ -355,6 +360,8 @@
 		044CDACE22CC96FF002295D5 /* MyTrackModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTrackModel.h; sourceTree = "<group>"; };
 		044CDAD022CCA8E3002295D5 /* SQTrackDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SQTrackDetailViewController.h; sourceTree = "<group>"; };
 		044CDAD122CCA8E3002295D5 /* SQTrackDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SQTrackDetailViewController.m; sourceTree = "<group>"; };
+		0456A5AA2410E6690036D5F9 /* FiveSubjectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FiveSubjectModel.h; sourceTree = "<group>"; };
+		0456A5AB2410E6690036D5F9 /* FiveSubjectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FiveSubjectModel.m; sourceTree = "<group>"; };
 		0464B0BD239F7D3A00A80785 /* CarICurrentInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarICurrentInfoModel.h; sourceTree = "<group>"; };
 		0464B0BE239F7D3B00A80785 /* CarICurrentInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarICurrentInfoModel.m; sourceTree = "<group>"; };
 		0464B0C0239F7FDC00A80785 /* CoreSpotlight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreSpotlight.framework; path = System/Library/Frameworks/CoreSpotlight.framework; sourceTree = SDKROOT; };
@@ -362,8 +369,14 @@
 		0483C8BE22D476080086803B /* SQNoticeDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SQNoticeDetailViewController.h; sourceTree = "<group>"; };
 		0483C8BF22D476080086803B /* SQNoticeDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SQNoticeDetailViewController.m; sourceTree = "<group>"; };
 		0483C8C022D476080086803B /* SQNoticeDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SQNoticeDetailViewController.xib; sourceTree = "<group>"; };
+		049068692411EFA500789748 /* SQFiveResultViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SQFiveResultViewController.h; sourceTree = "<group>"; };
+		0490686A2411EFA500789748 /* SQFiveResultViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SQFiveResultViewController.m; sourceTree = "<group>"; };
+		0490686B2411EFA500789748 /* SQFiveResultViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SQFiveResultViewController.xib; sourceTree = "<group>"; };
 		04BC155D240BFB4C004A9DB1 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 		04BC155E240BFB4D004A9DB1 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
+		04CA87AE240F951F00934027 /* GoTestView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoTestView.xib; sourceTree = "<group>"; };
+		04CA87AF240F951F00934027 /* GoTestView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoTestView.h; sourceTree = "<group>"; };
+		04CA87B0240F951F00934027 /* GoTestView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoTestView.m; sourceTree = "<group>"; };
 		04CCBE412399E8BA00980053 /* SQVehicleMonitoringViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SQVehicleMonitoringViewController.h; sourceTree = "<group>"; };
 		04CCBE422399E8BA00980053 /* SQVehicleMonitoringViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SQVehicleMonitoringViewController.m; sourceTree = "<group>"; };
 		04CCBE432399E8BA00980053 /* SQVehicleMonitoringViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SQVehicleMonitoringViewController.xib; sourceTree = "<group>"; };
@@ -1507,6 +1520,9 @@
 		F3623BF82282D135002D8CD9 /* V */ = {
 			isa = PBXGroup;
 			children = (
+				04CA87AF240F951F00934027 /* GoTestView.h */,
+				04CA87B0240F951F00934027 /* GoTestView.m */,
+				04CA87AE240F951F00934027 /* GoTestView.xib */,
 				F352F9D22292A1F300085372 /* LWDPageControl.h */,
 				F352F9D12292A1F300085372 /* LWDPageControl.m */,
 				F3623BF92282D135002D8CD9 /* RemoteImageCell.h */,
@@ -2172,6 +2188,8 @@
 		F3623E2622890BE1002D8CD9 /* M */ = {
 			isa = PBXGroup;
 			children = (
+				0456A5AA2410E6690036D5F9 /* FiveSubjectModel.h */,
+				0456A5AB2410E6690036D5F9 /* FiveSubjectModel.m */,
 				F3623E2C2289193E002D8CD9 /* SQTestModel.h */,
 				F3623E2D2289193E002D8CD9 /* SQTestModel.m */,
 				F31DAF2A228A67EB00BAAEFE /* TestListModel.h */,
@@ -2198,6 +2216,9 @@
 				F31DB040228AA00800BAAEFE /* SQAnswerViewController.m */,
 				F30FCE38228CFA34002A6218 /* SQTestResultViewController.h */,
 				F30FCE39228CFA34002A6218 /* SQTestResultViewController.m */,
+				049068692411EFA500789748 /* SQFiveResultViewController.h */,
+				0490686A2411EFA500789748 /* SQFiveResultViewController.m */,
+				0490686B2411EFA500789748 /* SQFiveResultViewController.xib */,
 			);
 			path = C;
 			sourceTree = "<group>";
@@ -2425,11 +2446,13 @@
 				F3623BC42282C73C002D8CD9 /* Main.storyboard in Resources */,
 				F348C6A7229FBF6C003A839E /* SelectedAssetCell.xib in Resources */,
 				F3623D0C2282DB09002D8CD9 /* LICENSE in Resources */,
+				04CA87B1240F952000934027 /* GoTestView.xib in Resources */,
 				F352F9E52293F27800085372 /* SQViolationsCell.xib in Resources */,
 				0421ECE1230E6C1100684711 /* SQChooseCell.xib in Resources */,
 				04E093C0240CA5F4009E1608 /* Login.storyboard in Resources */,
 				044CDACC22CC454B002295D5 /* SQMyTrackCell.xib in Resources */,
 				0483C8C222D476080086803B /* SQNoticeDetailViewController.xib in Resources */,
+				0490686D2411EFA500789748 /* SQFiveResultViewController.xib in Resources */,
 				F3623CBD2282DAF6002D8CD9 /* LICENSE in Resources */,
 				04CCBE452399E8BA00980053 /* SQVehicleMonitoringViewController.xib in Resources */,
 				F362749D22BCD5820023A4E0 /* SQVehicleMessageViewController.xib in Resources */,
@@ -2545,6 +2568,7 @@
 				044CDACF22CC96FF002295D5 /* MyTrackModel.m in Sources */,
 				F3623DF72283DA0E002D8CD9 /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				F323945822B8C71000FF83A0 /* PTHistogramView.m in Sources */,
+				0490686C2411EFA500789748 /* SQFiveResultViewController.m in Sources */,
 				F348C69A229FB4D6003A839E /* XG_AssetCell.m in Sources */,
 				F3623C562282DAE9002D8CD9 /* UIImageView+AFNetworking.m in Sources */,
 				044CDACB22CC454B002295D5 /* SQMyTrackCell.m in Sources */,
@@ -2566,6 +2590,7 @@
 				F352F9FA22951E4C00085372 /* SQViolationsFeedbackViewController.m in Sources */,
 				F3623C842282DAF1002D8CD9 /* MASLayoutConstraint.m in Sources */,
 				F3623CBE2282DAF6002D8CD9 /* UIScrollView+MJRefresh.m in Sources */,
+				0456A5AC2410E6690036D5F9 /* FiveSubjectModel.m in Sources */,
 				F3623CCD2282DAF6002D8CD9 /* MJRefreshFooter.m in Sources */,
 				F3623D432282DB12002D8CD9 /* MJProperty.m in Sources */,
 				F3623CCE2282DAF6002D8CD9 /* MJRefreshHeader.m in Sources */,
@@ -2622,6 +2647,7 @@
 				F348C693229FB4D6003A839E /* XG_AssetModel.m in Sources */,
 				F31DAF2B228A67EB00BAAEFE /* TestListModel.m in Sources */,
 				0400AD6522EE89DF004F090B /* UIView+SDExtension.m in Sources */,
+				04CA87B2240F952000934027 /* GoTestView.m in Sources */,
 				F323948A22B8C73600FF83A0 /* PNColor.m in Sources */,
 				F33B94F922A60EEE000C0537 /* SQScanViewController.m in Sources */,
 				F3623D562282DBA2002D8CD9 /* BaseNavigationController.m in Sources */,

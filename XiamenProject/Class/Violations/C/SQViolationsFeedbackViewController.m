@@ -337,7 +337,6 @@
     for (int i = 0; i < assets.count; i ++) {
         XG_AssetModel *model = assets[i];
         [[XG_AssetPickerManager manager] getPhotoWithAsset:model.asset photoWidth:kScreen_W completion:^(UIImage *photo, NSDictionary *info) {
-            
             [self.photoArr addObject:photo];
         }];
     }
