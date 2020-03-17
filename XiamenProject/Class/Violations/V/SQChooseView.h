@@ -13,8 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SQChooseView : UIView
 
-
-- (instancetype)initWithFrame:(CGRect)frame data:(NSArray *)data block:(XXNSArrayBlock)block closeBlock:(XXVoidBlock)closeBlock;
+//type 0:单选  1:多选 2:没有模型
+- (instancetype)initWithFrame:(CGRect)frame type:(NSInteger)type title:(NSString *)title data:(NSArray *)data block:(XXNSArrayBlock)block closeBlock:(XXVoidBlock)closeBlock;
 
 @end
 

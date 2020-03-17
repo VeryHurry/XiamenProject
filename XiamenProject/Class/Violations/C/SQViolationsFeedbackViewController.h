@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SQViolationsFeedbackViewController : BaseViewController
 
-@property (nonatomic, copy) NSString *mobile, *address, *accounted;
+@property (nonatomic, copy) NSString *mobile, *address, *accounted, *parentId, *parentName;
 
 @end
 

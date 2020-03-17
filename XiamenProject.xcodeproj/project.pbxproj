@@ -18,6 +18,7 @@
 		0421ECE0230E6C1100684711 /* SQChooseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0421ECDE230E6C1100684711 /* SQChooseCell.m */; };
 		0421ECE1230E6C1100684711 /* SQChooseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0421ECDF230E6C1100684711 /* SQChooseCell.xib */; };
 		0427BF0B230D22B50070DF0C /* LawListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427BF09230D22B40070DF0C /* LawListModel.m */; };
+		043A3C47241B7AC300C983EC /* CompanyListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 043A3C46241B7AC300C983EC /* CompanyListModel.m */; };
 		044CDACB22CC454B002295D5 /* SQMyTrackCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 044CDAC922CC454B002295D5 /* SQMyTrackCell.m */; };
 		044CDACC22CC454B002295D5 /* SQMyTrackCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044CDACA22CC454B002295D5 /* SQMyTrackCell.xib */; };
 		044CDACF22CC96FF002295D5 /* MyTrackModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 044CDACD22CC96FF002295D5 /* MyTrackModel.m */; };
@@ -353,6 +354,8 @@
 		0421ECDF230E6C1100684711 /* SQChooseCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SQChooseCell.xib; sourceTree = "<group>"; };
 		0427BF09230D22B40070DF0C /* LawListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LawListModel.m; sourceTree = "<group>"; };
 		0427BF0A230D22B50070DF0C /* LawListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LawListModel.h; sourceTree = "<group>"; };
+		043A3C45241B7AC200C983EC /* CompanyListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompanyListModel.h; sourceTree = "<group>"; };
+		043A3C46241B7AC300C983EC /* CompanyListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompanyListModel.m; sourceTree = "<group>"; };
 		044CDAC822CC454B002295D5 /* SQMyTrackCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SQMyTrackCell.h; sourceTree = "<group>"; };
 		044CDAC922CC454B002295D5 /* SQMyTrackCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SQMyTrackCell.m; sourceTree = "<group>"; };
 		044CDACA22CC454B002295D5 /* SQMyTrackCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SQMyTrackCell.xib; sourceTree = "<group>"; };
@@ -1267,6 +1270,8 @@
 		F352F9D52293D74D00085372 /* M */ = {
 			isa = PBXGroup;
 			children = (
+				043A3C45241B7AC200C983EC /* CompanyListModel.h */,
+				043A3C46241B7AC300C983EC /* CompanyListModel.m */,
 				0427BF0A230D22B50070DF0C /* LawListModel.h */,
 				0427BF09230D22B40070DF0C /* LawListModel.m */,
 				F3C2686B22B244810024B29E /* DataMoel */,
@@ -2552,6 +2557,7 @@
 				F3623DF32283DA0E002D8CD9 /* IQTextView.m in Sources */,
 				F3623D102282DB09002D8CD9 /* SDWebImageFrame.m in Sources */,
 				F348C690229FB4D6003A839E /* XG_AlbumCell.m in Sources */,
+				043A3C47241B7AC300C983EC /* CompanyListModel.m in Sources */,
 				F3623CCF2282DAF6002D8CD9 /* MJRefreshBackFooter.m in Sources */,
 				F3623DFC2283DA0E002D8CD9 /* IQUITextFieldView+Additions.m in Sources */,
 				F323948422B8C73600FF83A0 /* PNLineChart.m in Sources */,

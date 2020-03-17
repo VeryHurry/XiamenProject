@@ -67,14 +67,24 @@
     self.isBack = YES;
     self.photoBtn.xx_cornerRadius = self.photoBtn.xx_height/2;
     [self.photoBtn xx_addTapActionWithBlock:^(UIGestureRecognizer *gestureRecoginzer) {
-        if (!kIsEmptyStr(self.model.mobile)) {
+       
             SQViolationsFeedbackViewController *vc = [[SQViolationsFeedbackViewController alloc]init];
             vc.hidesBottomBarWhenPushed = YES;
             vc.mobile = self.model.mobile;
             vc.address = self.address.text;
-            vc.accounted = self.model.accounted;
+            if (!kIsEmptyStr(self.model.accounted)) {
+                vc.accounted = self.model.accounted;
+            }
+            else
+            {
+                if (!kIsEmptyStr(self.model.parentId)) {
+                    vc.parentId = self.model.parentId;
+                    vc.parentName = self.model.parentName;
+                }
+            }
+            
             [self.navigationController pushViewController:vc animated:YES];
-        }
+        
     }];
     [self.parentMobile xx_addTapActionWithBlock:^(UIGestureRecognizer *gestureRecoginzer) {
         if (!kIsEmptyStr(self.model.legalPersontel)) {
@@ -177,6 +187,10 @@
     {
         status = @"骑手已绑定";
     }
+    else if (state == -1)
+    {
+        status = @"未绑定";
+    }
     
     NSInteger acc = _model.acc;
     if (acc == 0) {
@@ -187,13 +201,14 @@
         status = [NSString stringWithFormat:@"%@|ACC打开",status];
     }
     
+    NSString *speed = kIsEmptyStr(_model.speed) ? @"0" :_model.speed;
     
     
-    status = [NSString stringWithFormat:@"%@|%@km/h|%@",status,_model.speed,[self getDirectionWithAngle:_model.direction]];
+    status = [NSString stringWithFormat:@"%@|%@km/h|%@",status,speed,[self getDirectionWithAngle:_model.direction]];
     self.status.text = status;
     
     [self getAddress:_model.latitude longitude:_model.longitude];
-
+    
 }
 
 #pragma mark - 角度转为方向
@@ -285,4 +300,5 @@
 }
 
 @end
+
 

@@ -16,6 +16,8 @@
 
 @property (nonatomic, copy) NSString *parentName;
 
+@property (nonatomic, copy) NSString *parentId;
+
 @property (nonatomic, assign) NSInteger status;
 
 @property (nonatomic, copy) NSString *updateTime;

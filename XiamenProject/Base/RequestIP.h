@@ -35,6 +35,7 @@ extern NSString *const IP_SubmitTest;
 extern NSString *const IP_BindVehicle;
 extern NSString *const IP_LawList;
 extern NSString *const IP_LawTypeList;
+extern NSString *const IP_CompanyList;
 extern NSString *const IP_Post_LawList;
 extern NSString *const IP_MyLawList;
 extern NSString *const IP_VehicleInformation;

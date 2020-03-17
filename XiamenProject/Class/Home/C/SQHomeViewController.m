@@ -52,6 +52,8 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
 @property (nonatomic, assign) BOOL isUserBind;//是否绑定车辆
 @property (nonatomic, strong) MyVehicleModel *model;
 
+@property (nonatomic, assign) BOOL isClockin;
+
 @end
 
 @implementation SQHomeViewController
@@ -67,14 +69,17 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
     NSLog(@"----***************-----------%@",[kUserDefaults objectForKey:@"mobile"]);
     if ([kUserDefaults objectForKey:@"mobile"]&&!kIsEmptyStr([kUserDefaults objectForKey:@"mobile"]))
     {
-        [self checkClockin];
+        if ([[kUserDefaults objectForKey:@"type"] integerValue]== 1) {
+            [self checkClockin];
+        }
+        
         [self getMessage];
     }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    [self getVersion];
+    //    [self getVersion];
     UIButton *customBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
     [customBtn setImage:[UIImage imageNamed:@"home_ic_scan"] forState:UIControlStateNormal];
     customBtn.titleLabel.font = Font(13);
@@ -374,11 +379,26 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
 #pragma mark - 扫一扫
 -(void)scanClick
 {
-    
-    SQScanViewController *scanningVc = [[SQScanViewController alloc]init];
-    scanningVc.hidesBottomBarWhenPushed = YES;
-    
-    [self.navigationController pushViewController:scanningVc animated:YES];
+    if ([[kUserDefaults objectForKey:@"type"] integerValue]== 1) {
+        if (!self.isClockin) {
+            [MBProgressHUD showMessag:@"请先完成每日一考" toView:kWindow andShowTime:1];
+        }
+        else
+        {
+            SQScanViewController *scanningVc = [[SQScanViewController alloc]init];
+            scanningVc.hidesBottomBarWhenPushed = YES;
+            
+            [self.navigationController pushViewController:scanningVc animated:YES];
+        }
+    }
+    else
+    {
+        
+        SQScanViewController *scanningVc = [[SQScanViewController alloc]init];
+        scanningVc.hidesBottomBarWhenPushed = YES;
+        
+        [self.navigationController pushViewController:scanningVc animated:YES];
+    }
     
 }
 
@@ -533,6 +553,7 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
         [Base_AFN_Manager postUrl:IP_SPLICE(IP_Clockin) parameters:@{@"accountNo":[kUserDefaults objectForKey:@"mobile"]} success:^(id success) {
             if (!kIsEmptyObj(success)) {
                 if ([success[@"result"] integerValue] == 0) {
+                    self.isClockin = NO;
                     self.maskView.alpha = 0.6;
                     [GoTestView alertWithBlock:^{
                         
@@ -544,6 +565,10 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
                     }closeBlock:^{
                         self.maskView.alpha = 0;
                     }];
+                }
+                else
+                {
+                    self.isClockin = YES;
                 }
             }
             
@@ -656,6 +681,7 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
  */
 
 @end
+
 
 
 

@@ -60,9 +60,9 @@
     
     _type.text = _model.law;
     
-    _state.text = _model.status == 0||_model.status == 1 ? @"未处理":@"已处理";
+    _state.text = _model.status == 2||_model.status == 3 ? @"已处理":@"未处理";
     _state.textColor = _model.status == 0||_model.status == 1 ? kBlue : kGreen;
-    _time.text = kIsEmptyStr(_model.checkTime) ? @"-":_model.checkTime;
+    _time.text = kIsEmptyStr(_model.createTime) ? @"-":_model.createTime;
     
     _address.text = _model.lawAddress;
     _content.text = _model.law;

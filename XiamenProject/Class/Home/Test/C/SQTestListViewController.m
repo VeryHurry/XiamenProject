@@ -44,6 +44,11 @@
     
 }
 
+- (void)back
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 - (void)myLearn
 {
     

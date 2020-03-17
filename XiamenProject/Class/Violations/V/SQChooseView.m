@@ -8,6 +8,7 @@
 
 #import "SQChooseView.h"
 #import "SQChooseCell.h"
+#import "CompanyListModel.h"
 #import "LawListModel.h"
 
 @interface SQChooseView ()<UITableViewDelegate,UITableViewDataSource>
@@ -15,6 +16,8 @@
 @property (nonatomic, copy) XXNSArrayBlock block ;
 @property (nonatomic, strong) NSArray *data;
 @property (nonatomic, strong) NSMutableArray *selectArr;
+@property (nonatomic, copy) NSString *titleStr;
+@property (nonatomic, assign) NSInteger type;
 
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -23,7 +26,7 @@
 
 @implementation SQChooseView
 
-- (instancetype)initWithFrame:(CGRect)frame data:(NSArray *)data block:(XXNSArrayBlock)block  closeBlock:(XXVoidBlock)closeBlock
+- (instancetype)initWithFrame:(CGRect)frame type:(NSInteger)type title:(NSString *)title data:(NSArray *)data block:(XXNSArrayBlock)block closeBlock:(XXVoidBlock)closeBlock
 {
     if (self = [super initWithFrame:frame])
     {
@@ -33,6 +36,8 @@
             self.block = [block copy];
             self.closeBlock = [closeBlock copy];
         }
+        self.type = type;
+        self.titleStr = title;
         self.data = data;
         [self createUI];
     }
@@ -42,7 +47,7 @@
 - (void)createUI
 {
     UILabel *titleLbl = [[UILabel alloc]initWithFrame:kFrame(0, 0, self.xx_width, 45)];
-    titleLbl.text = @"违规类型(可多选)";
+    titleLbl.text = _titleStr;
     titleLbl.font = Font(16);
     titleLbl.textAlignment = 1;
     [self addSubview:titleLbl];
@@ -84,14 +89,23 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if ([self.selectArr containsObject:kStrNum(indexPath.row)]) {
-        [self.selectArr removeObject:kStrNum(indexPath.row)];
+    if (_type == 0 || _type == 2) {
+        [self.selectArr removeAllObjects];
+        [self.selectArr addObject:kStrNum(indexPath.row)];
+        [self.tableView reloadData];
     }
     else
     {
-        [self.selectArr addObject:kStrNum(indexPath.row)];
+        if ([self.selectArr containsObject:kStrNum(indexPath.row)]) {
+            [self.selectArr removeObject:kStrNum(indexPath.row)];
+        }
+        else
+        {
+            [self.selectArr addObject:kStrNum(indexPath.row)];
+        }
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section], nil] withRowAnimation:UITableViewRowAnimationNone];
     }
-    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section], nil] withRowAnimation:UITableViewRowAnimationNone];
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -100,8 +114,19 @@
     SQChooseCell *cell = [tableView dequeueReusableCellWithIdentifier:@"choose_cell" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryNone;
-    LawListModel *model = self.data[indexPath.row];
-    [cell setData:model];
+    if (_type == 0) {
+        CompanyModel *model = self.data[indexPath.row];
+        [cell setCompanyData:model];
+    }
+    else if (_type == 1)
+    {
+        LawListModel *model = self.data[indexPath.row];
+        [cell setLawData:model];
+    }
+    else
+    {
+        [cell setData:self.data[indexPath.row]];
+    }
     if ([self.selectArr containsObject:kStrNum(indexPath.row)]) {
         cell.img.image = [UIImage imageNamed:@"option_1"];
     }
@@ -133,7 +158,13 @@
 {
     if (_tableView == nil)
     {
+        if (_type == 2) {
+           _tableView = [[UITableView alloc] initWithFrame:kFrame(0, 45, self.xx_width, 44*self.data.count) style:UITableViewStylePlain];
+        }
+        else
+        {
         _tableView = [[UITableView alloc] initWithFrame:kFrame(0, 45, self.xx_width, 44*9.5) style:UITableViewStylePlain];
+        }
         _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -153,3 +184,4 @@
 
 
 @end
+

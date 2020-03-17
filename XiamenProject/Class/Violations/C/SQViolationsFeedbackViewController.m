@@ -14,6 +14,7 @@
 #import "XG_AssetPickerController.h"
 #import "SelectedAssetCell.h"
 #import "LawListModel.h"
+#import "CompanyListModel.h"
 #import "SQChooseView.h"
 
 #define kCollectionViewSectionInsetLeftRight 16
@@ -30,13 +31,23 @@
 
 @property (weak, nonatomic) IBOutlet UIView *bgHead;
 @property (weak, nonatomic) IBOutlet UITextField *noLbl;
+@property (weak, nonatomic) IBOutlet UIImageView *noImg;
+@property (weak, nonatomic) IBOutlet UIButton *noButton;
+@property (weak, nonatomic) IBOutlet UILabel *typeName;
+@property (weak, nonatomic) IBOutlet UIImageView *typeImg;
+@property (weak, nonatomic) IBOutlet UIImageView *companyImg;
 @property (weak, nonatomic) IBOutlet UITextView *content;
 @property (weak, nonatomic) IBOutlet UIView *imagesView;
 @property (weak, nonatomic) IBOutlet UIButton *typeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *addressBtn;
 
 @property (nonatomic, strong) NSArray *dataArr, *selectArr;
+@property (nonatomic, strong) NSArray *comanyArr, *selectCompanyArr;
+@property (nonatomic, strong) NSArray *typeArr, *selectTypeArr;
 
+@property (nonatomic, strong) SQChooseView *typeView;
+@property (nonatomic, copy) NSString *companyId;
+@property (nonatomic, strong) SQChooseView *companyView;
 @property (nonatomic, strong) SQChooseView *chooseView;
 @property (nonatomic, strong) UIView *maskView;
 
@@ -47,7 +58,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self getLawList];
+    [self getCompanyList];
     [self.view addSubview:self.maskView];
+    [self.view addSubview:self.typeView];
+    
     self.isBack = YES;
     self.typeBtn.titleLabel.numberOfLines = 0;
     if (!kIsEmptyStr(self.address)) {
@@ -57,6 +71,14 @@
     
     if (!kIsEmptyStr(self.accounted)) {
         self.noLbl.text = self.accounted;
+        self.typeName.text = @"骑手编号";
+        self.noLbl.placeholder = @"请输入骑手编号";
+        self.noImg.hidden = YES;
+        self.noButton.hidden = YES;
+    }
+    if (!kIsEmptyStr(self.parentId)) {
+        self.noLbl.text = self.parentName;
+        self.companyId = self.parentId;
     }
     
     //    self.title = @"随时拍";
@@ -85,12 +107,34 @@
     self.collectionView.collectionViewLayout = layout;
     [self.collectionView registerNib:[UINib nibWithNibName:@"SelectedAssetCell" bundle:nil] forCellWithReuseIdentifier:NSStringFromClass([SelectedAssetCell class])];
     self.collectionView.scrollEnabled = NO;
+    
+   
 }
 
 -(void)mine
 {
     SQMyLawListViewController *vc = [SQMyLawListViewController new];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (IBAction)selectType:(id)sender
+{
+    [self.view endEditing:YES];
+    [UIView animateWithDuration:0.2 animations:^{
+        self.maskView.alpha = 0.4;
+        self.typeView.frame = kFrame(0, kScreen_H-(45+70+44*2), kScreen_W, 45+70+44*2);
+    }];
+}
+     
+- (IBAction)selectCompany:(id)sender
+{
+    if (!kIsEmptyArr(self.comanyArr)) {
+    [self.view endEditing:YES];
+    [UIView animateWithDuration:0.2 animations:^{
+        self.maskView.alpha = 0.4;
+        self.companyView.frame = kFrame(0, kScreen_H-(45+70+44*9.5), kScreen_W, 45+70+44*9.5);
+    }];
+    }
 }
 
 - (IBAction)type:(id)sender
@@ -288,6 +332,29 @@
     }
 }
 
+- (void)getCompanyList
+{
+    if ([Base_AFN_Manager isNetworking]) {
+        
+        [Base_AFN_Manager postUrl:IP_SPLICE(IP_CompanyList) parameters:@{@"pageNum":@"1",@"pageSize":@"200"} success:^(id success) {
+            WeakSelf(ws);
+            if (!kIsEmptyObj(success)) {
+                ws.comanyArr = [CompanyModel mj_objectArrayWithKeyValuesArray:success[@"result"]];
+                [self.view addSubview:self.companyView];
+                
+            }
+            
+            
+        } failure_login:nil failure_data:^(id failure) {
+            
+        } error:^(id error) {
+            
+        }];
+    } else {
+        
+    }
+}
+
 #pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -347,27 +414,39 @@
 - (void)networkingForUploadImg:(NSArray *)imgArr
 {
     NSMutableDictionary *dic = [NSMutableDictionary new];
-    [dic setObject:self.noLbl.text forKey:@"staffNo"];
+    
 //    [dic setObject:@"800017" forKey:@"staffNo"];
+    if ([_typeName.text containsString:@"企业"]) {
+        [dic setObject:self.companyId forKey:@"companyId"];
+        [dic setObject:@"" forKey:@"staffNo"];
+    }
+    else
+    {
+        [dic setObject:self.noLbl.text forKey:@"staffNo"];
+        [dic setObject:@"" forKey:@"companyId"];
+    }
    
     [dic setObject:[self selectData][0] forKey:@"lawType"];
     
     [dic setObject:self.content.text forKey:@"law"];
     [dic setObject:self.addressBtn.titleLabel.text forKey:@"lawAddress"];
-//    [dic setObject:@"厦门市湖里区" forKey:@"lawAddress"];
-//    [dic setObject:@"垃圾垃圾垃圾" forKey:@"law"];
-    [dic setObject:kIsEmptyStr(self.mobile)?[kUserDefaults objectForKey:@"mobile"]:self.mobile forKey:@"createPerson"];
+
+    [dic setObject:[kUserDefaults objectForKey:@"mobile"] forKey:@"createPerson"];
     [dic setObject:@"1" forKey:@"channelType"];
-//    [self uploadDataWithImage:imgArr url:IP_SPLICECAR(IP_Post_LawList)  filename:nil name:@"file1" params:dic success:^(id success) {
-//
-//    } fail:^(id failure) {
-//
-//    }];
+
     
-    [Base_AFN_Manager post_images_url:IP_SPLICECAR(IP_Post_LawList) parameters:dic imageDatas:imgArr success:^(id success) {
+    [Base_AFN_Manager post_images_url:IP_SPLICE(IP_Post_LawList) parameters:dic imageDatas:imgArr success:^(id success) {
     
-        [MBProgressHUD showSuccess:success[@"msg"]];
-        [self.navigationController popViewControllerAnimated:YES];
+        
+        if ([success[@"status"] integerValue] == 1) {
+            [MBProgressHUD showSuccess:success[@"msg"]];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        else
+        {
+            [MBProgressHUD showError:success[@"msg"]];
+        }
+        
     } failure_login:^(id failure) {
 
     } failure_data:^(id failure) {
@@ -441,10 +520,58 @@
     return _photoArr;
 }
 
+- (SQChooseView *)typeView
+{
+    if (!_typeView) {
+        _typeView = [[SQChooseView alloc]initWithFrame:kFrame(0, kScreen_H, kScreen_W, 45+70+44*2) type:2 title:@"类型" data:@[@"企业名称",@"骑手编号"] block:^(NSArray *arr) {
+            self.selectTypeArr = arr;
+            self.typeName.text = @[@"企业名称",@"骑手编号"][[arr[0] integerValue]];
+            self.noLbl.placeholder = @[@"请选择企业",@"请输入骑手编号"][[arr[0] integerValue]];
+            self.noLbl.text = @"";
+            self.noImg.hidden = [arr[0] integerValue] == 0 ? NO : YES;
+            self.noButton.hidden = [arr[0] integerValue] == 0 ? NO : YES;
+            [UIView animateWithDuration:0.2 animations:^{
+                self.maskView.alpha = 0;
+                self.typeView.frame = kFrame(0, kScreen_H, kScreen_W, 45+70+44*2);
+            }];
+            
+        } closeBlock:^{
+            [UIView animateWithDuration:0.2 animations:^{
+                self.maskView.alpha = 0;
+                self.typeView.frame = kFrame(0, kScreen_H, kScreen_W, 45+70+44*2);
+            }];
+        }];
+    }
+    return _typeView;
+}
+
+- (SQChooseView *)companyView
+{
+    if (!_companyView) {
+        _companyView = [[SQChooseView alloc]initWithFrame:kFrame(0, kScreen_H, kScreen_W, 45+70+44*9.5) type:0 title:@"选择企业" data:self.comanyArr block:^(NSArray *arr) {
+            self.selectTypeArr = arr;
+            CompanyModel *model = self.comanyArr[[arr[0] integerValue]];
+            self.noLbl.text = model.name;
+            self.companyId = model.ID;
+            [UIView animateWithDuration:0.2 animations:^{
+                self.maskView.alpha = 0;
+                self.companyView.frame = kFrame(0, kScreen_H, kScreen_W, 45+70+44*9.5);
+            }];
+            
+        } closeBlock:^{
+            [UIView animateWithDuration:0.2 animations:^{
+                self.maskView.alpha = 0;
+                self.companyView.frame = kFrame(0, kScreen_H, kScreen_W, 45+70+44*9.5);
+            }];
+        }];
+    }
+    return _companyView;
+}
+
 - (SQChooseView *)chooseView
 {
     if (!_chooseView) {
-        _chooseView = [[SQChooseView alloc]initWithFrame:kFrame(0, kScreen_H, kScreen_W, 45+70+44*9.5) data:self.dataArr block:^(NSArray *arr) {
+        _chooseView = [[SQChooseView alloc]initWithFrame:kFrame(0, kScreen_H, kScreen_W, 45+70+44*9.5) type:1 title:@"违规类型(可多选)" data:self.dataArr block:^(NSArray *arr) {
             self.selectArr = arr;
             [self.typeBtn setTitle:[self selectData][1] forState:UIControlStateNormal];
             [UIView animateWithDuration:0.2 animations:^{
@@ -471,6 +598,8 @@
             [UIView animateWithDuration:0.2 animations:^{
                 self.maskView.alpha = 0;
                 self.chooseView.frame = kFrame(0, kScreen_H, kScreen_W, 45+70+44*9.5);
+                self.typeView.frame = kFrame(0, kScreen_H, kScreen_W, 45+70+44*2);
+                self.companyView.frame = kFrame(0, kScreen_H, kScreen_W, 45+70+44*9.5);
             }];
         }];
     }
