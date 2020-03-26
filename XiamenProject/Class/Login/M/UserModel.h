@@ -3,9 +3,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "QKCoding.h"
 
 
-@interface UserModel : NSObject
+@interface UserModel : QKCoding
 
 @property (nonatomic, copy) NSString *parentIds;
 

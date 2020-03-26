@@ -26,6 +26,7 @@
 #import "MacroDefinition.h"
 #import "SELUpdateAlert.h"
 #import "GoTestView.h"
+#import "UserModel.h"
 
 #define FIT_WIDTH(w) w * SCREEN_WIDTH / 375.f
 static NSString *kRemoteCellId = @"RemoteImageCell";
@@ -53,6 +54,8 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
 @property (nonatomic, strong) MyVehicleModel *model;
 
 @property (nonatomic, assign) BOOL isClockin;
+@property (nonatomic, strong) UserModel *userModel;
+
 
 @end
 
@@ -63,18 +66,18 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
     [super viewWillAppear:animated];
     
     [self isLogin];
+    
     //[kUserDefaults setObject:@"15259203981" forKey:@"mobile"];
     self.navigationController.navigationBarHidden = NO;
     [_cycleScrollView adjustWhenViewWillAppear];
-    NSLog(@"----***************-----------%@",[kUserDefaults objectForKey:@"mobile"]);
-    if ([kUserDefaults objectForKey:@"mobile"]&&!kIsEmptyStr([kUserDefaults objectForKey:@"mobile"]))
-    {
-        if ([[kUserDefaults objectForKey:@"type"] integerValue]== 1) {
-            [self checkClockin];
-        }
-        
-        [self getMessage];
-    }
+//    if (!kIsEmptyObj(_userModel))
+//    {
+//        if (_userModel.type == 1) {
+//            [self checkClockin];
+//        }
+//        [self getMessage];
+//        [self getUserInfo];
+//    }
 }
 
 - (void)viewDidLoad {
@@ -93,10 +96,31 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
 
 - (void)isLogin
 {
+//    if (![UserDefaultsTool getBoolForKey:@"isLogin"]) {
     if (![UserDefaultsTool getBoolForKey:@"isLogin"]) {
         SQLoginViewController *loginVC = [[UIStoryboard storyboardWithName:@"Login" bundle:nil] instantiateViewControllerWithIdentifier:@"login_sb"];
+        loginVC.modalPresentationStyle = 0;
         [self presentViewController:loginVC animated:YES completion:nil];
     }
+    else
+    {
+        _userModel = [UserModel getModelWithPath:@"userinfo"];
+//        if (_userModel.status == 4) {
+//            [kUserDefaults removeObjectForKey:@"mobile"];
+//            [kUserDefaults removeObjectForKey:@"isLogin"];
+//            SQLoginViewController *loginVC = [[UIStoryboard storyboardWithName:@"Login" bundle:nil] instantiateViewControllerWithIdentifier:@"login_sb"];
+//            loginVC.modalPresentationStyle = 0;
+//            [self presentViewController:loginVC animated:YES completion:nil];
+//        }
+//        else
+//        {
+            if (_userModel.type == 1) {
+               [self checkClockin];
+            }
+            [self getMessage];
+            [self getUserInfo];
+        }
+//    }
 }
 
 #pragma mark - UI
@@ -379,7 +403,7 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
 #pragma mark - 扫一扫
 -(void)scanClick
 {
-    if ([[kUserDefaults objectForKey:@"type"] integerValue]== 1) {
+    if (_userModel.type == 1) {
         if (!self.isClockin) {
             [MBProgressHUD showMessag:@"请先完成每日一考" toView:kWindow andShowTime:1];
         }
@@ -533,8 +557,15 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
     if ([Base_AFN_Manager isNetworking]) {
         
         [Base_AFN_Manager postUrl:IP_SPLICE(IP_UserInfo) parameters:@{@"mobile":[kUserDefaults objectForKey:@"mobile"]} success:^(id success) {
-            
-            
+            self.userModel = [UserModel mj_objectWithKeyValues:success[@"result"]];
+            [self.userModel saveModelWithPath:@"userinfo"];
+            if (self.userModel.status == 4) {
+                [kUserDefaults removeObjectForKey:@"mobile"];
+                [kUserDefaults removeObjectForKey:@"isLogin"];
+                SQLoginViewController *loginVC = [[UIStoryboard storyboardWithName:@"Login" bundle:nil] instantiateViewControllerWithIdentifier:@"login_sb"];
+                loginVC.modalPresentationStyle = 0;
+                [self presentViewController:loginVC animated:YES completion:nil];
+            }
             
         } failure_login:nil failure_data:^(id failure) {
             
@@ -681,6 +712,7 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
  */
 
 @end
+
 
 
 

@@ -102,19 +102,19 @@ static dispatch_once_t onceToken;
     }];
 }
 
-+ (void)post_images_url:(NSString *)urlString parameters:(NSDictionary *)parameters imageDatas:(NSArray *)imageDatas success:(SuccessBlock)success failure_login:(FailureLoginBlock)failure_login failure_data:(FailureLoginBlock)failure_data error:(ErrorBlock)err {
++ (void)post_images_url:(NSString *)urlString parameters:(NSDictionary *)parameters imageDatas:(NSArray *)imageDatas fileNameArr:(NSArray *)fileNameArr success:(SuccessBlock)success failure_login:(FailureLoginBlock)failure_login failure_data:(FailureLoginBlock)failure_data error:(ErrorBlock)err {
 //    id params = [Base_AFN_Manager dealWithRequestByParams:parameters];
 //    AFQueryStringFromParameters(parameters);
     [[Base_AFN_Manager sharedManager] POST:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"yyyyMMddHHmmss";
         NSString *str = [formatter stringFromDate:[NSDate date]];
-        NSArray *fileArr = @[@"file1",@"file2",@"file3"];
+//        NSArray *fileArr = @[@"file1",@"file2",@"file3"];
          for (int i = 0; i < imageDatas.count; i++) {
     
             NSData *data = UIImageJPEGRepresentation(imageDatas[i], 0.5);
             NSString *fileName = [NSString stringWithFormat:@"%@.jpg", str];
-            [formData appendPartWithFileData:data name:fileArr[i] fileName:fileName mimeType:@"image/jpg"];
+            [formData appendPartWithFileData:data name:fileNameArr[i] fileName:fileName mimeType:@"image/jpg"];
         }
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         //请求进度
@@ -131,6 +131,9 @@ static dispatch_once_t onceToken;
 //        [Base_AFN_Manager clean];
     }];
 }
+
+
+
 
 #pragma mark ---- 检查并处理参数
 + (id)dealWithRequestByParams:(NSDictionary *)params {

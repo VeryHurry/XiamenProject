@@ -272,13 +272,15 @@
 
 - (void)showAssetPickerController{
     XG_AssetPickerOptions *options = [[XG_AssetPickerOptions alloc]init];
+    options.videoPickable = NO;
     options.maxAssetsCount = 3;
-    options.videoPickable = YES;
     NSMutableArray<XG_AssetModel *> *array = [self.assets mutableCopy];
     [array removeLastObject];//去除占位model
     options.pickedAssetModels = array;
     XG_AssetPickerController *photoPickerVc = [[XG_AssetPickerController alloc] initWithOptions:options delegate:self];
+    
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:photoPickerVc];
+    nav.modalPresentationStyle = 0;
     [self presentViewController:nav animated:YES completion:nil];
 }
 
@@ -435,7 +437,7 @@
     [dic setObject:@"1" forKey:@"channelType"];
 
     
-    [Base_AFN_Manager post_images_url:IP_SPLICE(IP_Post_LawList) parameters:dic imageDatas:imgArr success:^(id success) {
+    [Base_AFN_Manager post_images_url:IP_SPLICE(IP_Post_LawList) parameters:dic imageDatas:imgArr fileNameArr:@[@"file1",@"file2",@"file3"]  success:^(id success) {
     
         
         if ([success[@"status"] integerValue] == 1) {

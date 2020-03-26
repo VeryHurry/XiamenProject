@@ -23,6 +23,7 @@
 		044CDACC22CC454B002295D5 /* SQMyTrackCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044CDACA22CC454B002295D5 /* SQMyTrackCell.xib */; };
 		044CDACF22CC96FF002295D5 /* MyTrackModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 044CDACD22CC96FF002295D5 /* MyTrackModel.m */; };
 		044CDAD222CCA8E3002295D5 /* SQTrackDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044CDAD122CCA8E3002295D5 /* SQTrackDetailViewController.m */; };
+		044DD2D22421B834007996EA /* QKCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DD2D02421B834007996EA /* QKCoding.m */; };
 		0456A5AC2410E6690036D5F9 /* FiveSubjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0456A5AB2410E6690036D5F9 /* FiveSubjectModel.m */; };
 		0464B0BF239F7D3B00A80785 /* CarICurrentInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0464B0BE239F7D3B00A80785 /* CarICurrentInfoModel.m */; };
 		0464B0C3239F7FE500A80785 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0464B0C2239F7FE500A80785 /* CoreGraphics.framework */; };
@@ -363,6 +364,8 @@
 		044CDACE22CC96FF002295D5 /* MyTrackModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTrackModel.h; sourceTree = "<group>"; };
 		044CDAD022CCA8E3002295D5 /* SQTrackDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SQTrackDetailViewController.h; sourceTree = "<group>"; };
 		044CDAD122CCA8E3002295D5 /* SQTrackDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SQTrackDetailViewController.m; sourceTree = "<group>"; };
+		044DD2D02421B834007996EA /* QKCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QKCoding.m; sourceTree = "<group>"; };
+		044DD2D12421B834007996EA /* QKCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QKCoding.h; sourceTree = "<group>"; };
 		0456A5AA2410E6690036D5F9 /* FiveSubjectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FiveSubjectModel.h; sourceTree = "<group>"; };
 		0456A5AB2410E6690036D5F9 /* FiveSubjectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FiveSubjectModel.m; sourceTree = "<group>"; };
 		0464B0BD239F7D3A00A80785 /* CarICurrentInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarICurrentInfoModel.h; sourceTree = "<group>"; };
@@ -1595,8 +1598,6 @@
 		F3623C022282D135002D8CD9 /* M */ = {
 			isa = PBXGroup;
 			children = (
-				F32923F422C30A4400EB1B06 /* UserModel.h */,
-				F32923F322C30A4400EB1B06 /* UserModel.m */,
 			);
 			path = M;
 			sourceTree = "<group>";
@@ -1639,6 +1640,10 @@
 		F3623C082282D135002D8CD9 /* M */ = {
 			isa = PBXGroup;
 			children = (
+				044DD2D12421B834007996EA /* QKCoding.h */,
+				044DD2D02421B834007996EA /* QKCoding.m */,
+				F32923F422C30A4400EB1B06 /* UserModel.h */,
+				F32923F322C30A4400EB1B06 /* UserModel.m */,
 			);
 			path = M;
 			sourceTree = "<group>";
@@ -2755,6 +2760,7 @@
 				F397FCB222C3567C00803714 /* SQSetViewController.m in Sources */,
 				04E093C4240CA6A0009E1608 /* SQMineViewController.m in Sources */,
 				F3623D1C2282DB09002D8CD9 /* SDImageCache.m in Sources */,
+				044DD2D22421B834007996EA /* QKCoding.m in Sources */,
 				F342F63222B38A3C00635CE1 /* JSONKit.m in Sources */,
 				F3623C5D2282DAE9002D8CD9 /* AFHTTPSessionManager.m in Sources */,
 				0400AD6622EE89DF004F090B /* SDCollectionViewCell.m in Sources */,

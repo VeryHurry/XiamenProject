@@ -12,6 +12,7 @@
 #import "PrivacyPolicyViewController.h"
 #import "MacroDefinition.h"
 #import "UIButton+XXButton.h"
+#import "UserModel.h"
 
 
 @interface SQLoginViewController ()<UITextFieldDelegate>
@@ -66,11 +67,13 @@
         [Base_AFN_Manager postUrl:IP_SPLICE(IP_LOGIN) parameters:@{@"mobile":self.telText.text,@"password":self.pswText.text} success:^(id success) {
          
             if ([success[@"status"] integerValue] == 1) {
-                [kUserDefaults setInteger:[success[@"result"][@"type"] integerValue] forKey:@"type"];
+                
+                UserModel *Model = [UserModel mj_objectWithKeyValues:success[@"result"]];
+                [Model saveModelWithPath:@"userinfo"];
                 [kUserDefaults setObject:self.telText.text forKey:@"mobile"];
-                [kUserDefaults setObject:success[@"result"][@"id"] forKey:@"id"];
-                [kUserDefaults setObject:success[@"result"][@"accountId"] forKey:@"accountId"];
-                [kUserDefaults setInteger:[success[@"result"][@"type"] integerValue] forKey:@"type"];
+//                [kUserDefaults setObject:success[@"result"][@"id"] forKey:@"id"];
+//                [kUserDefaults setObject:success[@"result"][@"accountId"] forKey:@"accountId"];
+           
                 [kUserDefaults setBool:YES forKey:@"isLogin"];
                 [MBProgressHUD showSuccess:@"登录成功"];
                 [self dismissViewControllerAnimated:YES completion:nil];

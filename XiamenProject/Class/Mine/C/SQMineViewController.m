@@ -59,6 +59,7 @@
 {
     if (![UserDefaultsTool getBoolForKey:@"isLogin"]) {
         SQLoginViewController *loginVC = [[UIStoryboard storyboardWithName:@"Login" bundle:nil] instantiateViewControllerWithIdentifier:@"login_sb"];
+        loginVC.modalPresentationStyle = 0;
         [self presentViewController:loginVC animated:YES completion:nil];
     }
 }
@@ -130,11 +131,17 @@
         PickerImage.sourceType = UIImagePickerControllerSourceTypeCamera;
         PickerImage.allowsEditing = YES;
         PickerImage.delegate = self;
+        PickerImage.modalPresentationStyle = 0;
         [self presentViewController:PickerImage animated:YES completion:nil];
     }]];
     //按钮：取消，类型：UIAlertActionStyleCancel
     [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-    [self presentViewController:alert animated:YES completion:nil];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+       [self presentViewController:alert animated:YES completion:nil];
+    });
+    
+    
 }
 
 //PickerImage完成后的代理方法
@@ -153,6 +160,7 @@
         [Base_AFN_Manager postUrl:IP_SPLICE(IP_UserInfo) parameters:@{@"mobile":[kUserDefaults objectForKey:@"mobile"]} success:^(id success) {
             if (!kIsEmptyObj(success)) {
                 self.userModel = [UserModel mj_objectWithKeyValues:success[@"result"]];
+                [self.userModel saveModelWithPath:@"userinfo"];
                 [self updateUI];
             }
             
@@ -189,7 +197,7 @@
 - (void)updateHeadImg:(UIImage *)img
 {
     NSArray *arr = [NSArray arrayWithObject:img];
-    [Base_AFN_Manager post_images_url:IP_SPLICECAR(IP_UploadHead) parameters:@{@"id": _userModel.ID} imageDatas:arr success:^(id success) {
+    [Base_AFN_Manager post_images_url:IP_SPLICECAR(IP_UploadHead) parameters:@{@"id": _userModel.ID} imageDatas:arr fileNameArr:@[@"headImg"] success:^(id success) {
         NSLog(@"1111");
         self.userImage.image = img;
         [MBProgressHUD showSuccess:@"修改成功"];

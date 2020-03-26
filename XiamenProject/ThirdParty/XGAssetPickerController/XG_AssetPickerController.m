@@ -14,6 +14,7 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "XG_MediaBrowseView.h"
 #import "FLAnimatedImage.h"
+#import "UniversalMacro.h"
 
 @interface XG_AssetPickerController ()<UICollectionViewDataSource,UICollectionViewDelegate,UITableViewDelegate,UITableViewDataSource,UINavigationControllerDelegate, UIImagePickerControllerDelegate,PHPhotoLibraryChangeObserver>
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -30,6 +31,8 @@
 @property (nonatomic, strong) NSMutableArray<NSIndexPath *> *albumSelectedIndexpaths;
 @property (nonatomic, strong) NSLayoutConstraint *containerView_bottom;
 @property (nonatomic, assign) BOOL hideStatusBar;
+
+@property (nonatomic, assign) NSInteger index;
 
 @end
 
@@ -103,7 +106,34 @@
     [[XG_AssetPickerManager manager] getAllAlbums:self.pickerOptions.videoPickable completion:^(NSArray<XG_AlbumModel *> *models) {
         @strongify(self)
         if (!self) return;
-        self.albumArr = [NSMutableArray arrayWithArray:models];
+        [self.albumArr removeAllObjects];
+        NSMutableArray *arr = [NSMutableArray arrayWithArray:models];
+        if (kSystemVersion >= 13.0) {
+            for (int i = 0; i < arr.count; i ++) {
+                XG_AlbumModel *model = arr[i];
+                if ([model.name isEqualToString:@"Recently Added"]) {
+                    [self.albumArr insertObject:model atIndex:0];
+                }
+                else
+                {
+                    [self.albumArr addObject:model];
+                }
+            }
+        }
+        
+        else
+        {
+            for (int i = 0; i < arr.count; i ++) {
+                XG_AlbumModel *model = arr[i];
+                if ([model.name isEqualToString:@"Camera Roll"]) {
+                    [self.albumArr insertObject:model atIndex:0];
+                }
+                else
+                {
+                    [self.albumArr addObject:model];
+                }
+            }
+        }
         self.albumArr[0].isSelected = YES;//默认第一个选中
         [self.ntView.titleBtn setTitle:self.albumArr[0].name forState:UIControlStateNormal];
         self.ntView.titleBtnWidth = [self getTitleBtnWidthWithTitle:self.albumArr[0].name];
@@ -125,7 +155,34 @@
     [[XG_AssetPickerManager manager] getAllAlbums:self.pickerOptions.videoPickable completion:^(NSArray<XG_AlbumModel *> *models) {
         @strongify(self)
         if (!self) return;
-        self.albumArr = [NSMutableArray arrayWithArray:models];
+        [self.albumArr removeAllObjects];
+        NSMutableArray *arr = [NSMutableArray arrayWithArray:models];
+        if (kSystemVersion >= 13.0) {
+            for (int i = 0; i < arr.count; i ++) {
+                XG_AlbumModel *model = arr[i];
+                if ([model.name isEqualToString:@"Recently Added"]) {
+                    [self.albumArr insertObject:model atIndex:0];
+                }
+                else
+                {
+                    [self.albumArr addObject:model];
+                }
+            }
+        }
+        
+        else
+        {
+            for (int i = 0; i < arr.count; i ++) {
+                XG_AlbumModel *model = arr[i];
+                if ([model.name isEqualToString:@"Camera Roll"]) {
+                    [self.albumArr insertObject:model atIndex:0];
+                }
+                else
+                {
+                    [self.albumArr addObject:model];
+                }
+            }
+        }
         self.albumArr[self.currentAlbumIndexpath.row].isSelected = YES;
         [self.ntView.titleBtn setTitle:self.albumArr[self.currentAlbumIndexpath.row].name forState:UIControlStateNormal];
         self.ntView.titleBtnWidth = [self getTitleBtnWidthWithTitle:self.albumArr[self.currentAlbumIndexpath.row].name];
@@ -497,9 +554,7 @@
 }
 
 - (void)switchToCameraRoll{
-    for (XG_AlbumModel *album in self.albumArr) {
-        album.isSelected = NO;
-    }
+    
     self.albumArr[0].isSelected = YES;
     [self.ntView.titleBtn setTitle:self.albumArr[0].name forState:UIControlStateNormal];
     self.ntView.titleBtnWidth = [self getTitleBtnWidthWithTitle:self.albumArr[0].name];
@@ -508,6 +563,7 @@
     [self.collectionView reloadData];
     [self.albumTableView reloadData];
     self.currentAlbumIndexpath = [NSIndexPath indexPathForRow:0 inSection:0];
+    
 }
 
 - (CGFloat)getTitleBtnWidthWithTitle:(NSString *)title{
@@ -662,5 +718,6 @@
 }
 
 @end
+
 
 

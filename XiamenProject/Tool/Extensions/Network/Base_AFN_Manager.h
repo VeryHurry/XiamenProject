@@ -57,7 +57,7 @@ typedef void(^ErrorBlock)(id error);//请求失败
  @param failure_data 失败回调
  @param err 错误回调
  */
-+ (void)post_images_url:(NSString *)urlString parameters:(NSDictionary *)parameters imageDatas:(NSArray<NSData *> *)imageDatas success:(SuccessBlock)success failure_login:(FailureLoginBlock)failure_login failure_data:(FailureLoginBlock)failure_data error:(ErrorBlock)err;
++ (void)post_images_url:(NSString *)urlString parameters:(NSDictionary *)parameters imageDatas:(NSArray<NSData *> *)imageDatas fileNameArr:(NSArray *)fileNameArr success:(SuccessBlock)success failure_login:(FailureLoginBlock)failure_login failure_data:(FailureLoginBlock)failure_data error:(ErrorBlock)err;
 
 /**
  清除网络请求
