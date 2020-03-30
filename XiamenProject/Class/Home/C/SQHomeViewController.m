@@ -70,14 +70,6 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
     //[kUserDefaults setObject:@"15259203981" forKey:@"mobile"];
     self.navigationController.navigationBarHidden = NO;
     [_cycleScrollView adjustWhenViewWillAppear];
-//    if (!kIsEmptyObj(_userModel))
-//    {
-//        if (_userModel.type == 1) {
-//            [self checkClockin];
-//        }
-//        [self getMessage];
-//        [self getUserInfo];
-//    }
 }
 
 - (void)viewDidLoad {
@@ -104,24 +96,106 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
     }
     else
     {
-        _userModel = [UserModel getModelWithPath:@"userinfo"];
-//        if (_userModel.status == 4) {
-//            [kUserDefaults removeObjectForKey:@"mobile"];
-//            [kUserDefaults removeObjectForKey:@"isLogin"];
-//            SQLoginViewController *loginVC = [[UIStoryboard storyboardWithName:@"Login" bundle:nil] instantiateViewControllerWithIdentifier:@"login_sb"];
-//            loginVC.modalPresentationStyle = 0;
-//            [self presentViewController:loginVC animated:YES completion:nil];
-//        }
-//        else
-//        {
-            if (_userModel.type == 1) {
-               [self checkClockin];
-            }
-            [self getMessage];
-            [self getUserInfo];
-        }
-//    }
+        [self getHomeMessage];
+    }
 }
+
+
+- (void)getHomeMessage {
+    //    /创建信号量为0
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_group_t group = dispatch_group_create();
+    
+    dispatch_group_async(group, queue, ^{
+        [Base_AFN_Manager postUrl:IP_SPLICE(IP_Home_Message) parameters:@{@"mobile":[kUserDefaults objectForKey:@"mobile"]} success:^(id success) {
+            NSLog(@"1");
+            if (!kIsEmptyObj(success)) {
+                self.noticeArr = success[@"noticeList"];
+                self.bannerArr = success[@"bannerList"];
+                if ([success[@"bianding"] integerValue] == 1) {
+                    self.isBind = YES;
+                }
+                else
+                {
+                    self.isBind = NO;
+                }
+                [self createUI];
+                        
+            }
+            dispatch_semaphore_signal(semaphore);
+                    
+        } failure_login:nil failure_data:^(id failure) {
+            dispatch_semaphore_signal(semaphore);
+        } error:^(id error) {
+            dispatch_semaphore_signal(semaphore);
+        }];
+        
+    });
+    
+    dispatch_group_async(group, queue, ^{
+           [Base_AFN_Manager postUrl:IP_SPLICE(IP_BindStatus) parameters:@{@"mobile":[kUserDefaults objectForKey:@"mobile"],@"pageNum":@"1",@"pageSize":@"20"} success:^(id success) {
+               NSLog(@"2");
+               self.model = [MyVehicleModel mj_objectWithKeyValues:success];
+               if (self.model.total > 0) {
+                   self.isUserBind = YES;
+                   result *model = self.model.result[0];
+                   self.vehicleDic = @{@"imeiNo": model.imeiNo,@"vehicleNo": kIsEmptyStr(model.vehicleNo)? @" ":model.vehicleNo};
+               }
+               else
+               {
+                   self.isUserBind = NO;
+               }
+               dispatch_semaphore_signal(semaphore);
+               
+           } failure_login:nil failure_data:^(id failure) {
+               dispatch_semaphore_signal(semaphore);
+           } error:^(id error) {
+               dispatch_semaphore_signal(semaphore);
+           }];
+           
+       });
+    
+    dispatch_group_async(group, queue, ^{
+        
+        [Base_AFN_Manager postUrl:IP_SPLICE(IP_UserInfo) parameters:@{@"mobile":[kUserDefaults objectForKey:@"mobile"]} success:^(id success) {
+                    
+                    NSLog(@"3");
+                    self.userModel = [UserModel mj_objectWithKeyValues:success[@"result"]];
+                    [self.userModel saveModelWithPath:@"userinfo"];
+                    if (self.userModel.status == 4) {
+                        [kUserDefaults removeObjectForKey:@"mobile"];
+                        [kUserDefaults removeObjectForKey:@"isLogin"];
+                        SQLoginViewController *loginVC = [[UIStoryboard storyboardWithName:@"Login" bundle:nil] instantiateViewControllerWithIdentifier:@"login_sb"];
+                        loginVC.modalPresentationStyle = 0;
+                        [self presentViewController:loginVC animated:YES completion:nil];
+                    }
+            dispatch_semaphore_signal(semaphore);
+                    
+                } failure_login:nil failure_data:^(id failure) {
+                    dispatch_semaphore_signal(semaphore);
+                } error:^(id error) {
+                    dispatch_semaphore_signal(semaphore);
+                }];
+        
+    });
+    
+    dispatch_group_notify(group, queue, ^{
+//        信号量 -1 为0时wait会阻塞线程
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        NSLog(@"信号量为0");
+        
+        if (self.userModel.type == 1 && self.userModel.status != 4) {
+            [self checkClockin];
+        }
+        
+    });
+    
+}
+
 
 #pragma mark - UI
 - (void)createUI
@@ -530,7 +604,7 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
             if (!kIsEmptyObj(success)) {
                 self.noticeArr = success[@"noticeList"];
                 self.bannerArr = success[@"bannerList"];
-                [self getBindStatus];
+
                 if ([success[@"bianding"] integerValue] == 1) {
                     self.isBind = YES;
                 }
@@ -539,6 +613,7 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
                     self.isBind = NO;
                 }
                 [self createUI];
+                
             }
             
             
@@ -557,6 +632,8 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
     if ([Base_AFN_Manager isNetworking]) {
         
         [Base_AFN_Manager postUrl:IP_SPLICE(IP_UserInfo) parameters:@{@"mobile":[kUserDefaults objectForKey:@"mobile"]} success:^(id success) {
+            
+            
             self.userModel = [UserModel mj_objectWithKeyValues:success[@"result"]];
             [self.userModel saveModelWithPath:@"userinfo"];
             if (self.userModel.status == 4) {
@@ -579,7 +656,7 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
 
 - (void)checkClockin
 {
-    if ([Base_AFN_Manager isNetworking]) {
+    
         
         [Base_AFN_Manager postUrl:IP_SPLICE(IP_Clockin) parameters:@{@"accountNo":[kUserDefaults objectForKey:@"mobile"]} success:^(id success) {
             if (!kIsEmptyObj(success)) {
@@ -609,9 +686,7 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
         } error:^(id error) {
             
         }];
-    } else {
-        
-    }
+    
 }
 
 
@@ -712,6 +787,8 @@ static NSString *kRemoteCellId = @"RemoteImageCell";
  */
 
 @end
+
+
 
 
 
