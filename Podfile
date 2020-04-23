@@ -9,6 +9,8 @@ def project_pods
  
 end
 
+source 'https://github.com/CocoaPods/Specs.git'
+
 target 'XiamenProject' do
     project_pods
 end
